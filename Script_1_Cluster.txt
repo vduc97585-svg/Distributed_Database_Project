@@ -1,0 +1,120 @@
+----------------------------------------------------DEMO PHAN TAN--------------------------------------------------------
+
+-------------Tai may TAN SON NHAT-------------------
+--Vào shell accumulo với root 
+
+createtable flight_info
+
+createuser nb 
+createuser tsn
+
+setauths -u nb -s NB
+setauths -u tsn -s NB,TSN
+setauths -u root -s NB,TSN
+
+grant table.READ -t flight_info -u nb
+grant table.READ -t flight_info -u tsn
+grant table.WRITE -t flight_info -u nb
+grant table.WRITE -t flight_info -u tsn
+
+insert NB_flight001 info flight_no NB123 -l NB
+insert NB_flight001 info departure_time 2025-06-08T08:00 -l NB
+insert NB_flight001 info arrival_time 2025-06-08T10:00 -l NB
+insert NB_flight001 info origin HAN -l NB
+insert NB_flight001 info destination SGN -l NB
+insert TSN_flight002 info flight_no TSN456 -l TSN
+insert TSN_flight002 info departure_time 2025-06-09T09:30 -l TSN
+insert TSN_flight002 info arrival_time 2025-06-09T12:00 -l TSN
+insert TSN_flight002 info origin SGN -l TSN
+insert TSN_flight002 info destination HAN -l TSN
+
+scan -t flight_info
+
+
+
+------------TAI MAY NOI BAI-------------------------
+--Vào shell accumulo với user nb
+
+scan -t flight_info
+
+insert NB_flight003 info flight_no NB789 -l NB
+insert NB_flight003 info departure_time 2025-06-10T14:00 -l NB
+insert NB_flight003 info arrival_time 2025-06-10T16:30 -l NB
+insert NB_flight003 info origin HAN -l NB
+insert NB_flight003 info destination CXR -l NB
+
+scan -t flight_info
+
+------------TAI MAY TAN SON NHAT-------------------
+scan -t flight_info
+
+
+
+
+--------------------------------------------------Them du lieu và cap quyen tren cac bang con lai
+-------------Tai may TAN SON NHAT-------------------
+--Vào shell accumulo với root 
+--AIRPORT_INFO
+createtable AIRPORT_INFO
+insert HAN info name "Noi Bai International Airport"
+insert HAN info city "Hanoi"
+insert HAN info country "Vietnam"
+
+insert SGN info name "Tan Son Nhat International Airport"
+insert SGN info city "Ho Chi Minh City"
+insert SGN info country "Vietnam"
+
+grant table.READ -t AIRPORT_INFO -u nb
+grant table.READ -t AIRPORT_INFO -u tsn
+
+--AIRLINE_INFO
+createtable AIRLINE_INFO
+insert VNA info name "Vietnam Airlines"
+insert VNA info country "Vietnam"
+insert VNA info iata_code "VN"
+
+insert JPA info name "Jetstar Pacific"
+insert JPA info country "Vietnam"
+insert JPA info iata_code "BL"
+grant table.READ -t AIRLINE_INFO -u nb
+grant table.READ -t AIRLINE_INFO -u tsn
+
+--PASSENGER_MANIFEST
+createtable PASSENGER_MANIFEST
+insert NB_flight001 passenger P001:name "Nguyen Van A" -l NB
+insert NB_flight001 passenger P001:seat "12A" -l NB
+insert NB_flight001 passenger P002:name "Tran Thi B" -l NB
+insert NB_flight001 passenger P002:seat "14C" -l NB
+
+insert TSN_flight002 passenger P101:name "Le Van C" -l TSN
+insert TSN_flight002 passenger P101:seat "10B" -l TSN
+insert TSN_flight002 passenger P102:name "Pham Thi D" -l TSN
+insert TSN_flight002 passenger P102:seat "11A" -l TSN
+
+grant table.READ -t PASSENGER_MANIFEST -u nb
+grant table.READ -t PASSENGER_MANIFEST -u tsn
+grant table.WRITE -t PASSENGER_MANIFEST -u nb
+grant table.WRITE -t PASSENGER_MANIFEST -u tsn
+
+--CREW_ASSIGNMENT
+createtable CREW_ASSIGNMENT 
+insert NB_flight001 crew C001:role "Captain" -l NB
+insert NB_flight001 crew C001:name "Captain Nguyen" -l NB
+insert NB_flight001 crew C002:role "Flight Attendant" -l NB
+insert NB_flight001 crew C002:name "Ms. Mai" -l NB
+
+insert TSN_flight002 crew C101:role "Captain" -l TSN
+insert TSN_flight002 crew C101:name "Captain Tran" -l TSN
+insert TSN_flight002 crew C102:role "Flight Attendant" -l TSN
+insert TSN_flight002 crew C102:name "Mr. Phuc" -l TSN
+
+grant table.READ -t CREW_ASSIGNMENT -u nb
+grant table.READ -t CREW_ASSIGNMENT -u tsn
+grant table.WRITE -t CREW_ASSIGNMENT -u nb
+grant table.WRITE -t CREW_ASSIGNMENT -u tsn
+
+
+
+
+
+

@@ -1,0 +1,109 @@
+Máy Nội Bài
+--Sử dụng user “root” để tạo hai user “nb” và “tsn”, sau đó gán các quyền cho hai user này:
+createuser  nb  --Tạo user “nb”
+grant System.CREATE_TABLE -s -u nb  --Gán quyền tạo bảng cho “nb”
+createuser  tsn  --Tạo user “tsn”
+--Gán quyền read trên toàn bộ bảng cho user “tsn”:
+grant -u tsn Table.READ -t AIRPORT_INFO
+grant -u tsn Table.READ -t AIRLINE_INFO
+grant -u tsn Table.READ -t FLIGHT_INFO
+grant -u tsn Table.READ -t PASSENGER_MANIFEST
+grant -u tsn Table.READ -t CREW_ASSIGNMENT
+
+
+--Sử dụng user “nb” để tạo bảng
+--Tạo và thêm dữ liệu vào bảng AIRPORT_INFO:
+createtable AIRPORT_INFO
+insert HAN info name "Noi Bai International Airport"
+insert HAN info city "Hanoi"
+insert HAN info country "Vietnam"
+
+insert SGN info name "Tan Son Nhat International Airport"
+insert SGN info city "Ho Chi Minh City"
+insert SGN info country "Vietnam"
+
+--Tạo và thêm dữ liệu vào bảng AIRLINE_INFO:
+createtable AIRLINE_INFO
+insert VNA info name "Vietnam Airlines"
+insert VNA info country "Vietnam"
+insert VNA info iata_code "VN"
+
+insert JPA info name "Jetstar Pacific"
+insert JPA info country "Vietnam"
+insert JPA info iata_code "BL"
+
+--Tạo và thêm dữ liệu vào bảng FLIGHT_INFO:
+createtable FLIGHT_INFO
+insert NB_flight001 info flight_no NB123
+insert NB_flight001 info departure_time 2025-06-08T08:00
+insert NB_flight001 info arrival_time 2025-06-08T10:00
+insert NB_flight001 info origin HAN
+insert NB_flight001 info destination SGN
+
+--Tạo và thêm dữ liệu vào bảng PASSENGER_MANIFEST:
+createtable PASSENGER_MANIFEST
+# Dữ liệu chuyến bay NB_flight001
+insert NB_flight001 passenger P001:name "Nguyen Van A"
+insert NB_flight001 passenger P001:seat "12A"
+insert NB_flight001 passenger P002:name "Tran Thi B"
+insert NB_flight001 passenger P002:seat "14C"
+
+--Tạo và thêm dữ liệu vào bảng CREW_ASSIGNMENT:
+createtable CREW_ASSIGNMENT
+# Tổ bay cho NB_flight001
+insert NB_flight001 crew C001:role "Captain"
+insert NB_flight001 crew C001:name "Captain Nguyen"
+insert NB_flight001 crew C002:role "Flight Attendant"
+insert NB_flight001 crew C002:name "Ms. Mai"
+
+Máy Tân Sơn Nhất
+--Sử dụng user “root” để tạo user “tsn” sau đó gán quyền cho user này:
+createuser  tsn  --Tạo user “tsn”
+grant System.CREATE_TABLE -s -u tsn  --Gán quyền tạo bảng cho “tsn”
+
+--Sử dụng user “tsn” để tạo bảng
+--Tạo và thêm dữ liệu vào bảng AIRPORT_INFO:
+createtable AIRPORT_INFO
+insert HAN info name "Noi Bai International Airport"
+insert HAN info city "Hanoi"
+insert HAN info country "Vietnam"
+
+insert SGN info name "Tan Son Nhat International Airport"
+insert SGN info city "Ho Chi Minh City"
+insert SGN info country "Vietnam"
+
+--Tạo và thêm dữ liệu vào bảng AIRLINE_INFO:
+createtable AIRLINE_INFO
+insert VNA info name "Vietnam Airlines"
+insert VNA info country "Vietnam"
+insert VNA info iata_code "VN"
+
+insert JPA info name "Jetstar Pacific"
+insert JPA info country "Vietnam"
+insert JPA info iata_code "BL"
+
+--Tạo và thêm dữ liệu vào bảng FLIGHT_INFO:
+createtable FLIGHT_INFO
+insert TSN_flight002 info flight_no TSN456 
+insert TSN_flight002 info departure_time 2025-06-09T09:30 
+insert TSN_flight002 info arrival_time 2025-06-09T12:00 
+insert TSN_flight002 info origin SGN 
+insert TSN_flight002 info destination HAN
+
+--Tạo và thêm dữ liệu vào bảng PASSENGER_MANIFEST:
+createtable PASSENGER_MANIFEST
+# Dữ liệu chuyến bay TSN_flight002
+insert TSN_flight002 passenger P101:name "Le Van C" 
+insert TSN_flight002 passenger P101:seat "10B" 
+insert TSN_flight002 passenger P102:name "Pham Thi D" 
+insert TSN_flight002 passenger P102:seat "11A" 
+
+--Tạo và thêm dữ liệu vào bảng CREW_ASSIGNMENT:
+createtable CREW_ASSIGNMENT
+# Tổ bay cho TSN_flight002
+insert TSN_flight002 crew C101:role "Captain" 
+insert TSN_flight002 crew C101:name "Captain Tran" 
+insert TSN_flight002 crew C102:role "Flight Attendant" 
+insert TSN_flight002 crew C102:name "Mr. Phuc" 
+
+
